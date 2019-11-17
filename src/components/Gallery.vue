@@ -11,9 +11,9 @@
 
     <div class="thumbnails" v-infinite-scroll="() => retrieveFriends(loaded_page+1)"
          infinite-scroll-disabled="is_loading" infinite-scroll-distance="10">
-      <Thumbnail class="thumbnail" v-for="friend in friends" :key="friend.name" :name="friend.name"
-                 :src="friend.src"
-                 :credits="friend.credits"/>
+      <Thumbnail class="thumbnail" v-for="friend in friends" :key="friend.name"
+                 :name="friend.name" :src="friend.src" :credits="friend.credits"
+                 data-aos="fade-up"/>
     </div>
     <p v-if="is_loading" class="loading">Loading ...</p>
     <p v-if="exhausted" class="exhausted">That's all the friends</p>
