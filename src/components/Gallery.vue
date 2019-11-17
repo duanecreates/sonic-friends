@@ -1,35 +1,53 @@
 <template>
   <main>
-    <p v-if="is_loading" class="loading">Loading ...</p>
-
-    <div class="thumbnails">
+    <div class="thumbnails" v-infinite-scroll="() => retrieveFriends(loaded_page+1)"
+         infinite-scroll-disabled="is_loading" infinite-scroll-distance="10">
       <Thumbnail class="thumbnail" v-for="friend in friends" :key="friend.name" :name="friend.name"
                  :src="friend.src"
                  :credits="friend.credits"/>
     </div>
+    <p v-if="is_loading" class="loading">Loading ...</p>
+    <p v-if="exhausted" class="exhausted">That's all the friends</p>
   </main>
 </template>
 
 <script>
+    import infiniteScroll from 'vue-infinite-scroll';
     import Thumbnail from "@/components/Thumbnail";
 
     export default {
         name: "Gallery",
         components: {Thumbnail},
+        directives: {infiniteScroll},
         data() {
             return {
                 friends: [],
                 is_loading: false,
+                loaded_page: 0,
+                exhausted: false, // meaning there is no more data to retrieve
             }
         },
         methods: {
-            retrieveFriends() {
+            retrieveFriends(page = 1) {
+                if (this.exhausted)
+                    return;
+
                 this.is_loading = true;
 
                 this.$http
-                    .get('gallery')
+                    .get('gallery', {
+                        params: {
+                            _page: page,
+                            _limit: 6,
+                        }
+                    })
                     .then(res => {
-                        this.friends = res.data;
+                        if (res.data.length) {
+                            this.friends.push(...res.data);
+
+                            this.loaded_page = page;
+                        } else this.exhausted = true;
+
                         this.is_loading = false;
                     })
                     .catch(err => {
@@ -39,7 +57,7 @@
         },
 
         mounted() {
-            this.retrieveFriends();
+            this.retrieveFriends(1);
         }
     }
 </script>
@@ -56,8 +74,8 @@
       @apply p-32;
     }
 
-    .loading {
-      @apply text-yellow text-30;
+    .loading, .exhausted {
+      @apply text-yellow text-30 mt-24;
     }
 
     .thumbnails {

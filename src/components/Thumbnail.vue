@@ -41,24 +41,24 @@
       img {
         @apply object-cover rounded-xl h-full w-full;
         filter: grayscale(35%) hue-rotate(45deg);
-        transition: all .2s;
+        transition: all .1s;
       }
 
       .name {
         @apply bg-yellow text-blue-dark text-14 -mb-4 absolute rounded-full py-2 px-12;
         bottom: -3px;
-        transition: all .2s;
+        transition: all .3s;
       }
 
       &:hover {
-        @apply border-blue-dark bg-blue-dark;
+        @apply border-blue-dark bg-blue-dark shadow-xl;
 
         img {
           filter: unset;
         }
 
         .name {
-          @apply bg-blue-dark text-yellow;
+          @apply bg-blue-dark text-yellow shadow-xl;
         }
       }
     }

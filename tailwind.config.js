@@ -16,9 +16,6 @@ module.exports = {
       '30': '1.875rem',
       '40': '2.55rem',
     },
-    boxShadow: {
-      header: '0 10px 15px 0 rgba(0, 0, 0, 0.1), 0 4px 6px 0 rgba(0, 0, 0, 0.05)',
-    },
     linearGradients: theme => ({
       colors: theme('colors'),
     }),
@@ -31,7 +28,10 @@ module.exports = {
     extend: {
       borderRadius: {
         xl: '1rem',
-      }
+      },
+      boxShadow: {
+        header: '0 10px 15px 0 rgba(0, 0, 0, 0.1), 0 4px 6px 0 rgba(0, 0, 0, 0.05)',
+      },
     }
   },
   variants: {},
